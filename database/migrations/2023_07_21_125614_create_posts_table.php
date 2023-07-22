@@ -15,12 +15,12 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigIncrements('spam_id');
+            $table->integer('spam_id');
             $table->string('title','255');
             $table->integer('amount');
             $table->string('memo','255')->nullable();
             $table->string('image')->nullable();
-            $table->bigIncrements('status');
+            $table->integer('status');
             $table->date('date');
             $table->timestamps();
         });

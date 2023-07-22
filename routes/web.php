@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DisplayController;
+use App\Http\Controllers\RegistrationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,10 +13,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+  //  return view('welcome');
+//});
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', [DisplayController::class, 'index']);
+

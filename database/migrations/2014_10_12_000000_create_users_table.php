@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('icon');
             $table->tinyInteger('role')->default(0);
-            $table->bigIncrements('del_flg');
+            $table->string('del_flg');
             $table->rememberToken();
             $table->timestamps();
         });
