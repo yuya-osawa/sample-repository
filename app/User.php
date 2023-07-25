@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -36,4 +37,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function post(){
+        return $this->hasMany('App\Post','users_id', 'id','spam_id');
+    }
+
+    public function jobask(){
+        return $this->hasMany('App\jobask','users_id','post_id','spam_id');
+    }
+
+    public function spam(){
+        return $this->hasMany('App\spam','id','post_id');
+    }
 }
