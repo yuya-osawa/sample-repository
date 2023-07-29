@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
+use App\User;
+
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -21,9 +24,20 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        return view('create_newpost');
+    public function createnewpost(CreateData $request){
+
+        $post = new Post;
+        
+        $post->post_id = $request->post_id;
+        $post->title = $request->title;
+        $pose->amount = $request->amount;
+        $post->comment = $request->comment;
+        $post->date = $request->date;
+        $post->image = $request->image;
+
+        Auth::user()->post()->save($post);
+
+        return redirect('mypage');
     }
 
     /**

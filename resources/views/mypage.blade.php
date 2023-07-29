@@ -18,9 +18,29 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    my page!
                 </div>
             </div>
+            <div class="text-left d-flex flex-wrap" style="margin-left: 80px; margin-right: 30px;">
+    @foreach($posts as $post)
+        <table class="p-5 mb-5" style="margin: 10px; background-color: #ffffff;">
+            <tr>
+                
+                <th scope='col' class="p-3">{{ $post['title'] }}</th>
+                <th scope='col' class="pr-3">{{ $post['date'] }}</th>
+            </tr>
+            <!--<tr>
+                <th scope='col' class="pl-3">{{ $post['post'] }}</th>
+            </tr>-->
+            <tr>
+                <th scope='col' class="pl-3 pb-3">
+                    @if(empty($post['image']))
+                    画像の投稿はありません
+                    @elseif(!empty($post['image']))
+                    <img src="{{ asset('storage/'.$post['image']) }}" style="width: 230px; height: 230px; object-fit: cover;">
+                    @endif
+                </th>
+            </tr>
         </div>
     </div>
 </div>
