@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','icon'
     ];
 
     /**
@@ -39,14 +39,14 @@ class User extends Authenticatable
     ];
 
     public function post(){
-        return $this->hasMany('App\Post','users_id', 'id','spam_id');
+        return $this->hasMany('App\Post');
     }
 
     public function jobask(){
-        return $this->hasMany('App\jobask','users_id','post_id','spam_id');
+        return $this->hasMany('App\jobask');
     }
 
     public function spam(){
-        return $this->hasMany('App\spam','id','post_id');
+        return $this->hasMany('App\spam');
     }
 }

@@ -6,6 +6,7 @@ use App\Post;
 use App\User;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -24,20 +25,9 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function createnewpost(CreateData $request){
+    public function create(){
 
-        $post = new Post;
-        
-        $post->post_id = $request->post_id;
-        $post->title = $request->title;
-        $pose->amount = $request->amount;
-        $post->comment = $request->comment;
-        $post->date = $request->date;
-        $post->image = $request->image;
-
-        Auth::user()->post()->save($post);
-
-        return redirect('mypage');
+        return view('create_newpost');
     }
 
     /**
@@ -48,7 +38,19 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $post = new Post;
+        
+        $post -> user_id = Auth::id();
+        $post->title = $request->title;
+        $post->amount = $request->amount;
+        $post->comment = $request->comment;
+        $post->date = $request->date;
+        $post->image = $request->image;
+
+        //Auth::user()->post()->save($post);
+        $post -> save();
+
+        return redirect('mypage');
     }
 
     /**
@@ -57,9 +59,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        //
+        return view('mypost_detail',compact('post'));
     }
 
     /**
@@ -68,9 +70,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        return view('mypost_detail')->with('post', $post);
     }
 
     /**
@@ -80,9 +82,19 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $post->users_id = Auth::id();
+        $post->title = $request->title;
+        $post->amount = $request->amount;
+        $post->comment = $request->comment;
+        $post->date = $request->date;
+        $post->image = $request->image;
+
+        $post->save();
+
+        return redirect('/mypage');
+        
     }
 
     /**
@@ -91,8 +103,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+ 
+        $post->delete();
+        return redirect(route('/mypage'))->with('投稿を削除しました');
+       
     }
 }

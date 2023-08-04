@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
+use App\User;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -13,7 +17,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('mypage');
+
+        //$posts = Post::all();
+        //dd($posts);
+        //$posts -> user_id = Auth::id();
+        //return view('mypage');
     }
 
     /**
@@ -43,9 +51,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request ,User $user)
     {
-        //
+        //dd($request);
+        $posts = Post::all();
+        //dd($posts);
+        $posts -> user_id = Auth::id();
+        return view('mypage',compact('posts','user'));
     }
 
     /**

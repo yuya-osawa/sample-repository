@@ -23,7 +23,7 @@
                         @endif
                     </div>
 
-                    <form action="{{ route ('Post.create') }}" method="post">
+                    <form action="{{ route ('Post.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <label for='title'>タイトル</label>
                             <input type='text' class='form-conrol' name='title' value="{{ old('title') }}"/>
@@ -31,15 +31,19 @@
                         <label for='amount'>金額</label>
                             <input type='text' class='form-conrol' name='amount' value="{{ old('amount') }}"/>
                             <br>
-                        <label for='comment' class='mt-2'>内容</label>
+                        <label for='comment' class='mt-2'>投稿内容</label>
                             <textarea class='form-control' name='comment'></textarea>
                             <br>
+                        <label for='date'>投稿日</label>
+                        <input type='date' name='date' id='date' class='col-sm-8' placeholder='0000/00/00'>
+                            <br>
                             <label for='image'>画像</label>
-                            <input type='text' class='form-conrol' name='image' value="{{ old('image') }}"/>
                             <div class='row justify-content-center'>
-                            <button type='submit' class="btn btn-outline-primary">ファイルを選択</button>
+                            <input type='file' class="form-control-file" name="image" id="exampleFormControlFile1">
                         </div>
-                           
+                            <br>
+                       
+
                         <div class='row justify-content-center'>
                             <button type='submit' class='btn-primary w-25 mt-3'>投稿</button>
                         </div>
