@@ -14,4 +14,12 @@ class Post extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function jobask(){
+        return $this->belongsTo('App\Jobask');
+    }
+
+    public function spam(){
+        return $this->belongsTo('App\Spam');
+    }
+
 }

@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\support\Facades\Auth;
+use App\Post;
+use App\User;
+use App\Jobask;
+use App\Spam;
 
 class HomeController extends Controller
 {
@@ -21,8 +26,21 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request, Post $Post)
     {
-        return view('home');
+
+        $posts = Post::all();
+
+        if ($request->search) {
+            $posts = Post::orderBy('created_at', 'asc')->where(function ($query) {
+
+                // 検索機能
+                $search = request('search');
+                $query->where('title', 'LIKE', "%{$search}%")->orWhere('amount', 'LIKE', "%{$search}%")->orWhere('comment', 'LIKE', "%{$search}%");
+            })->get();
+        }
+        return view('home', [
+            'posts' => $posts,
+        ]);
     }
 }

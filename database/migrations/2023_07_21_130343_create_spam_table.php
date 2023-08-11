@@ -15,8 +15,9 @@ class CreateSpamTable extends Migration
     {
         Schema::create('spam', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('user_id');
             $table->integer('posts_id');//投稿id リレーション
-            $table->string('spam_report','255');//違反報告理由
+            $table->string('report','255');//違反報告理由
             $table->timestamps();
         });
     }

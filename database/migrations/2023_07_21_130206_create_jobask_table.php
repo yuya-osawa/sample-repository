@@ -17,10 +17,10 @@ class CreateJobaskTable extends Migration
             $table->bigIncrements('id');
             $table->integer('posts_id');
             $table->string('tel','11');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('title','255');
             $table->string('deadline');
-            $table->integer('amount');
+           
             $table->string('memo','255')->nullable();
             $table->timestamps();
         });

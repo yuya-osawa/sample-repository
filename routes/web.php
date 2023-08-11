@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DisplayController;
+use App\Http\Controllers\SpamController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,10 +22,18 @@ Route::get('/', function () {
 
 Auth::routes();
 
-
-Route::get('/home', [HomeController::class, 'index'])->name('home');//メインページ
+//メインページ
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::resource('User', 'UserController');
 Route::resource('Post', 'PostController');
+//違反報告
+Route::resource('Spam', 'SpamController');
+
+//依頼
+Route::get('/jobask/{Post}', [DisplayController::class, 'index'])->name('jobask.index');
+Route::post('/jobask/{Post}', [DisplayController::class, 'create'])->name('jobask.create');
+//違反報告
+Route::post('/spam/{Post}', [SpamController::class, 'spamCreate'])->name('spam.report');
 
 //Route::post('/user_create/{user}', [UserController::class, 'createUser'])->name('create.user');
 

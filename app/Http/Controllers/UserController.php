@@ -51,14 +51,19 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request ,User $user)
+    public function show(Request $request ,User $User)
     {
         //dd($request);
         $posts = Post::all();
         //dd($posts);
         $posts -> user_id = Auth::id();
-        return view('mypage',compact('posts','user'));
+        
+        return view('mypage',[
+            'posts' => $posts,
+            'user' => $User
+           ]);
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -66,9 +71,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $User)
     {
-        //
+        return view('user_edit')->with('user', $User);
     }
 
     /**
@@ -78,9 +83,22 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $User)
     {
-        //
+        $User->name = $request->name;
+        $User->email = $request->email;
+
+        if($request->icon){
+
+            $image=$request->file('icon')->getClientOriginalName();
+            
+            $request->file('icon')->storeAs('',$image,'public');
+            
+            $User->icon = $image;
+        }
+
+        $User->save();
+        return redirect()->route('User.show',Auth::id());
     }
 
     /**
@@ -89,8 +107,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $User)
     {
-        //
+        $User->delete();
+        return redirect('/login');
     }
 }
