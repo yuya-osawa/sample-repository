@@ -4,7 +4,6 @@
 <div class="row justify-content-center">
     <div class="col-md-8 text-center p-5">
         <form action="{{ route('spam.report',$post->id) }}" method="POST" enctype="multipart/form-data">
-
             @csrf
             違反報告理由<br>
             <textarea name="report" class='form-control'></textarea><br>

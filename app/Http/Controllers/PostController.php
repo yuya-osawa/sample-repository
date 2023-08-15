@@ -27,7 +27,8 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(){
+    public function create()
+    {
 
         return view('create_newpost');
     }
@@ -41,18 +42,35 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $post = new Post;
-        
-        $post -> user_id = Auth::id();
+
+        $request->validate([
+            "title" => "required|max:255",
+            "amount" => "required|integer",
+            "comment" => "required|max:500",
+            "date" => "required|date",
+            "image" => "image|mimes:jpeg,png,jpg,gif|max:2048"
+        ]);
+
+        $post->user_id = Auth::id();
         $post->title = $request->title;
         $post->amount = $request->amount;
         $post->comment = $request->comment;
         $post->date = $request->date;
         $post->image = $request->image;
 
-        //Auth::user()->post()->save($post);
-        $post -> save();
+        if ($request->image) {
 
-        return redirect()->route('User.show',Auth::id());
+            $image = $request->file('image')->getClientOriginalName();
+
+            $request->file('image')->storeAs('', $image, 'public');
+
+            $post->image = $image;
+        }
+
+        //Auth::user()->post()->save($post);
+        $post->save();
+
+        return redirect()->route('User.show', Auth::id());
     }
 
     /**
@@ -63,7 +81,7 @@ class PostController extends Controller
      */
     public function show(Post $Post)
     {
-       
+
         return view('mypost_detail')->with('post', $Post);
     }
 
@@ -87,6 +105,14 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $Post)
     {
+        $request->validate([
+            "title" => "required|max:255",
+            "amount" => "required|integer",
+            //"comment" => "required|max:500",
+            "date" => "required|date",
+            "image" => "image|mimes:jpeg,png,jpg,gif|max:2048"
+        ]);
+
         $Post->user_id = Auth::id();
         $Post->title = $request->title;
         $Post->amount = $request->amount;
@@ -94,10 +120,18 @@ class PostController extends Controller
         $Post->date = $request->date;
         $Post->image = $request->image;
 
+        if ($request->image) {
+
+            $image = $request->file('image')->getClientOriginalName();
+
+            $request->file('image')->storeAs('', $image, 'public');
+
+            $Post->image = $image;
+        }
+
         $Post->save();
 
-        return redirect()->route('User.show',Auth::id());
-        
+        return redirect()->route('User.show', Auth::id());
     }
 
     /**
@@ -108,11 +142,10 @@ class PostController extends Controller
      */
     public function destroy(Post $Post)
     {
-         
-        
+
+
         $Post->delete();
-        
-        return redirect()->route('User.show',Auth::id())->with('投稿を削除しました');
-       
+
+        return redirect()->route('User.show', Auth::id())->with('投稿を削除しました');
     }
 }

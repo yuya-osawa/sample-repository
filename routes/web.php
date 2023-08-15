@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DisplayController;
 use App\Http\Controllers\SpamController;
+use App\Http\Controllers\ManegerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,18 +23,36 @@ Route::get('/', function () {
 
 Auth::routes();
 
-//メインページ
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::resource('User', 'UserController');
-Route::resource('Post', 'PostController');
-//違反報告
-Route::resource('Spam', 'SpamController');
+Route::group(['middleware' => 'auth'], function () {
 
-//依頼
-Route::get('/jobask/{Post}', [DisplayController::class, 'index'])->name('jobask.index');
-Route::post('/jobask/{Post}', [DisplayController::class, 'create'])->name('jobask.create');
-//違反報告
-Route::post('/spam/{Post}', [SpamController::class, 'spamCreate'])->name('spam.report');
+    //メインページ
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::resource('User', 'UserController');
+    Route::resource('Post', 'PostController');
+    //違反報告
+    Route::resource('Spam', 'SpamController');
+
+    //依頼
+    Route::get('/jobask/{Post}', [DisplayController::class, 'index'])->name('jobask.index');
+    Route::post('/jobask/{Post}', [DisplayController::class, 'create'])->name('jobask.create');
+    //違反報告
+    Route::post('/spam/{Post}', [SpamController::class, 'spamCreate'])->name('spam.report');
+
+    //投稿リスト
+    Route::get('/postlist', [ManegerController::class, 'show'])->name('postlist.show');
+    //違反投稿の非表示
+    Route::get('/post/deleteflg/{post}', [ManegerController::class, 'PostDeleteflg'])->name('post.deleteflg');
+
+    //ユーザーリスト
+    Route::get('/userlist', [ManegerController::class, 'showUsers'])->name('userlist.show');
+    //ユーザーの利用停止
+    Route::delete('/user/{userId}', [ManegerController::class, 'deleteUser'])->name('user.delete');
+
+
+    //無限スクロール
+    Route::get('ajax/{page}', 'HomeController@ajaxscroll')->name('home.ajaxscroll');
+});
+
 
 //Route::post('/user_create/{user}', [UserController::class, 'createUser'])->name('create.user');
 

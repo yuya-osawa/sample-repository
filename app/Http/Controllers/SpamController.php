@@ -89,9 +89,15 @@ class SpamController extends Controller
     {
         $Spam = new Spam;
 
+        $request->validate([
+            "report" => "required|max:500",
+        ]);
+
         $Spam->user_id = Auth::id();
         $Spam->report = $request->report;
         $Spam->posts_id = $Post->id;
+
+
 
         $Spam->save();
         return redirect('/home');

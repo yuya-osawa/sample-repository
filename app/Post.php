@@ -6,20 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    protected $fillable=['amount','image','comment','title','date','del_flg','user_id']; 
-    
-    protected $table='posts';
+    protected $fillable = ['amount', 'image', 'comment', 'title', 'date', 'del_flg', 'user_id', 'report_count'];
 
-     public function user(){
+    protected $table = 'posts';
+
+    public function user()
+    {
         return $this->belongsTo('App\User');
     }
 
-    public function jobask(){
+    public function jobask()
+    {
         return $this->belongsTo('App\Jobask');
     }
 
-    public function spam(){
+    public function spam()
+    {
         return $this->belongsTo('App\Spam');
     }
-
 }

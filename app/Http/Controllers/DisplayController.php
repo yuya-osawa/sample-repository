@@ -17,22 +17,29 @@ class DisplayController extends Controller
         return view('jobask')->with('post', $Post);
     }
 
-    public function create(Request $request ,Post $Post)
+    public function create(Request $request, Post $Post)
     {
-        
+
         $jobask = new Jobask;
+
+        $request->validate([
+            "tel" => "required|regex:/^[0-9]{10,11}$/",
+            "email" => "required|email:filter,dns",
+            "deadline" => "required|date",
+            "comment" => "required|max:500"
+        ]);
+
         //dd($jobask->post_id);
-        $jobask -> user_id = Auth::id();
+        $jobask->user_id = Auth::id();
         $jobask->posts_id = $Post->id;
         $jobask->tel = $request->tel;
         $jobask->email = $request->email;
         $jobask->deadline = $request->deadline;
         $jobask->comment = $request->comment;
-        
-        $jobask -> save();
-    
+
+        $jobask->save();
+
         //dd($request);
         return redirect('/home');
-        
     }
 }

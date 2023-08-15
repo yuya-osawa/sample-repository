@@ -51,17 +51,17 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request ,User $User)
+    public function show(Request $request, User $User)
     {
         //dd($request);
         $posts = Post::all();
         //dd($posts);
-        $posts -> user_id = Auth::id();
-        
-        return view('mypage',[
+        $posts->user_id = Auth::id();
+
+        return view('mypage', [
             'posts' => $posts,
             'user' => $User
-           ]);
+        ]);
     }
 
 
@@ -85,20 +85,26 @@ class UserController extends Controller
      */
     public function update(Request $request, User $User)
     {
+        $request->validate([
+            "name" => "required|max:255",
+            "email" => "required|email:filter,dns",
+            "image" => "image|mimes:jpeg,png,jpg,gif|max:2048"
+        ]);
+
         $User->name = $request->name;
         $User->email = $request->email;
 
-        if($request->icon){
+        if ($request->icon) {
 
-            $image=$request->file('icon')->getClientOriginalName();
-            
-            $request->file('icon')->storeAs('',$image,'public');
-            
+            $image = $request->file('icon')->getClientOriginalName();
+
+            $request->file('icon')->storeAs('', $image, 'public');
+
             $User->icon = $image;
         }
 
         $User->save();
-        return redirect()->route('User.show',Auth::id());
+        return redirect()->route('User.show', Auth::id());
     }
 
     /**
