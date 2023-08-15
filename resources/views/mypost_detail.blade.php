@@ -79,12 +79,13 @@
 
     <div class="mb-3">
         <lavel for="formGroupExampleInput3" class="form-lavel">投稿内容</lavel>
-        <div name="post">{{ $post['comment'] }}</div><br>
+        <div name="post" value="{{ $post['comment'] }}">{{ $post['comment'] }}</div><br>
     </div>
 
     <div class="mb-3">
         <lavel for="formGroupExampleInput4" class="form-lavel">投稿画像</lavel>
-        <div id="image" name="image"></div>
+        <div id="image" name="image" value="{{ $post['image'] }}">{{ $post['image'] }}</div>
+
     </div>
 
 
