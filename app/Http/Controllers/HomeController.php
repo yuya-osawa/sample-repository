@@ -28,20 +28,46 @@ class HomeController extends Controller
      */
     public function index(Request $request, Post $Post)
     {
-        // dd($Post::orderBy('created_at', 'desc')->offset(0)->limit(7)->get());
-        $posts = Post::orderBy('created_at', 'desc')->paginate(7);
+        $query = Post::orderBy('created_at', 'desc');
 
-        if ($request->search) {
-            $posts = Post::orderBy('created_at', 'asc')->where(function ($query) {
-
-                // 検索機能
-                $search = request('search');
-                $query->where('title', 'LIKE', "%{$search}%")->orWhere('amount', 'LIKE', "%{$search}%")->orWhere('comment', 'LIKE', "%{$search}%");
-            })->get();
+        // キーワード検索
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where(function ($query) use ($search) {
+                $query->where('title', 'LIKE', "%{$search}%")
+                    ->orWhere('comment', 'LIKE', "%{$search}%");
+            });
         }
 
+        // 金額範囲検索
+        if ($request->has('amount')) {
+            $amountOption = $request->input('amount');
+            switch ($amountOption) {
+                case 1:
+                    $query->whereBetween('amount', [1, 999]);
+                    break;
+                case 2:
+                    $query->whereBetween('amount', [1000, 9999]);
+                    break;
+                case 3:
+                    $query->whereBetween('amount', [10000, 49999]);
+                    break;
+                case 4:
+                    $query->whereBetween('amount', [50000, 99999]);
+                    break;
+                case 5:
+                    $query->where('amount', '>=', 100000);
+                    break;
+            }
+        }
+
+        $posts = $query->paginate(7);
+
+        return view('home', ['posts' => $posts]);
+
+
         if ($content = $request->input('content')) { // コンテンツの取得
-            dd($request);
+            //dd($request);
             return response()->json(['content' => $content]);
         }
         $count = $posts->count();

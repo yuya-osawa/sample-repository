@@ -103,7 +103,7 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $Post)
+    public function update(Request $request, Post $Post, Jobask $jobask)
     {
         $request->validate([
             "title" => "required|max:255",
@@ -112,6 +112,8 @@ class PostController extends Controller
             "date" => "required|date",
             "image" => "image|mimes:jpeg,png,jpg,gif|max:2048"
         ]);
+
+
 
         $Post->user_id = Auth::id();
         $Post->title = $request->title;
@@ -147,5 +149,16 @@ class PostController extends Controller
         $Post->delete();
 
         return redirect()->route('User.show', Auth::id())->with('投稿を削除しました');
+    }
+
+    public function aaa(Request $request, Post $Post)
+    {
+        $post = $Post->where('id', '=', $request['post_id'])->first();
+        //dd($post);
+
+        $post->tag = 2;
+        $post->save();
+
+        return redirect()->route('User.show', Auth::id());
     }
 }

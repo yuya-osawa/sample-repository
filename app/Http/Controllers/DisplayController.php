@@ -36,8 +36,12 @@ class DisplayController extends Controller
         $jobask->email = $request->email;
         $jobask->deadline = $request->deadline;
         $jobask->comment = $request->comment;
+        $jobask->status = 1;
+        $Post->tag = 1;
+
 
         $jobask->save();
+        $Post->save();
 
         //dd($request);
         return redirect('/home');

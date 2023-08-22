@@ -14,10 +14,10 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $spamReport['post']['name'] }}</h5>
                             <!-- ユーザー名表示のロジック -->
-                            <p class="card-text">{{ $spamReport['post']['title'] }}</p>
-                            <p class="card-text">{{ $spamReport['post']['amount'] }}</p>
-                            <p class="card-text">{{ $spamReport['post']['date'] }}</p>
-                            <p class="card-text">{{ $spamReport['post']['comment'] }}</p>
+                            <p class="card-text">タイトル：{{ $spamReport['post']['title'] }}</p>
+                            <p class="card-text">金額：{{ $spamReport['post']['amount'] }}</p>
+                            <p class="card-text">投稿日：{{ $spamReport['post']['date'] }}</p>
+                            <p class="card-text">投稿内容：{{ $spamReport['post']['comment'] }}</p>
                             <div class="card-text">
                                 @foreach($spamReport['reports'] as $report)
                                 <span class="badge badge-warning">{{ $report }}</span>
@@ -39,7 +39,7 @@
         </div>
     </div>
 </div>
-<div class="text-right mx-5">
-    <a href="#" class="btn btn-secondary" onclick='window.history.back(-1);'>戻る</a>
+<div class="text-center mx-5">
+    <a href="#" class="btn btn-info mr-2" onclick='window.history.back(-1);'>🔙</a>
 </div>
 @endsection

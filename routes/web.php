@@ -5,6 +5,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\DisplayController;
 use App\Http\Controllers\SpamController;
 use App\Http\Controllers\ManegerController;
+use App\Http\Controllers\JobOfferController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +20,7 @@ use App\Http\Controllers\ManegerController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Auth::routes();
@@ -31,6 +33,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('Post', 'PostController');
     //違反報告
     Route::resource('Spam', 'SpamController');
+    //依頼を受けた投稿ページ
+    Route::get('/joboffer', [JobOfferController::class, 'show'])->name('joboffer.show');
+    Route::get('/mypage', [PostController::class, 'aaa'])->name('joboffer.update2');
+
 
     //依頼
     Route::get('/jobask/{Post}', [DisplayController::class, 'index'])->name('jobask.index');

@@ -9,7 +9,7 @@
             <textarea name="report" class='form-control'></textarea><br>
 
             <button type="submit" class="btn btn-danger" class="m-3">報告する</button>
-            <a href="#" class="btn btn-secondary" onclick='window.history.back(-1);'>戻る</a>
+            <a href="#" class="btn btn-info mr-2" onclick='window.history.back(-1);'>🔙</a>
         </form>
     </div>
 </div>

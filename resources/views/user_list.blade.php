@@ -25,9 +25,9 @@
                                     @endif
                                 </div>
                                 <div class="ml-3">
-                                    <h5 class="mb-0">{{ $user->name }}</h5>
-                                    <small>{{ $user->email }}</small>
-                                    <p class="mb-0">ID: {{ $user->id }}</p>
+                                    <h5 class="mb-0">ユーザー名：{{ $user->name }}</h5>
+                                    <small>メールアドレス：{{ $user->email }}</small>
+                                    <p class="mb-0">登録ID: {{ $user->id }}</p>
                                     <p class="mb-0">非表示投稿数: {{ $user->hiddenPostCount }}</p>
                                 </div>
                             </div>
@@ -41,10 +41,14 @@
                             </div>
                         </div>
                     </div>
+
                     @endforeach
                 </div>
             </div>
         </div>
     </div>
+</div>
+<div class="text-center mx-5">
+    <a href="#" class="btn btn-info mr-2" onclick='window.history.back(-1);'>🔙</a>
 </div>
 @endsection

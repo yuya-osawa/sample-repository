@@ -41,11 +41,18 @@ class ManegerController extends Controller
             }
         }
 
+        // 違反報告の件数で降順にソート
+        usort($spamReports, function ($a, $b) {
+            return $b['report_count'] - $a['report_count'];
+        });
+
+        // 上位20件を取得
+        $topReports = array_slice($spamReports, 0, 20);
+
         return view('post_list', [
-            'spamReports' => $spamReports,
+            'spamReports' => $topReports,
         ]);
     }
-
 
 
     public function PostDeleteflg(Post $post)
@@ -72,10 +79,17 @@ class ManegerController extends Controller
             $user->hiddenPostCount = $hiddenPostCount;
         }
 
+        // 非表示投稿の件数で降順にソート
+        $users = $users->sortByDesc('hiddenPostCount');
+
+        // 上位10件を取得
+        $topUsers = $users->take(10);
+
         return view('user_list', [
-            'users' => $users,
+            'users' => $topUsers,
         ]);
     }
+
 
 
     public function deleteUser(Request $request, $userId)

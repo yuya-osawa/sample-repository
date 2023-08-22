@@ -36,6 +36,10 @@
                 </div>
             </div>
 
+            <a href="{{ route('joboffer.show') }}">
+
+                <button class="btn btn-primary text-nowrap">依頼を受けた投稿</button>
+            </a>
 
 
             <div class="row mt-4">

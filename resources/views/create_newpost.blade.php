@@ -26,37 +26,41 @@
                     <form action="{{ route ('Post.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <label for='title'>タイトル</label>
-                            <input type='text' class='form-conrol' name='title' value="{{ old('title') }}"/>
-                            <br>
+                        <input type='text' class='form-conrol' name='title' value="{{ old('title') }}" />
+                        <br>
                         <label for='amount'>金額</label>
-                            <input type='text' class='form-conrol' name='amount' value="{{ old('amount') }}"/>
-                            <br>
+                        <input type='text' class='form-conrol' name='amount' value="{{ old('amount') }}" />
+                        <br>
                         <label for='comment' class='mt-2'>投稿内容</label>
-                            <textarea class='form-control' name='comment'></textarea>
-                            <br>
+                        <textarea class='form-control' name='comment'></textarea>
+                        <br>
                         <label for='date'>投稿日</label>
                         <input type='date' name='date' id='date' class='col-sm-8' placeholder='0000/00/00'>
-                            <br>
-                            <label for='image'>画像</label>
-                            <div class='row justify-content-center'>
+                        <br>
+                        <label for='image'>画像</label>
+                        <div class='row justify-content-center'>
                             <input type='file' class="form-control-file" name="image" id="exampleFormControlFile1">
                         </div>
-                            <br>
-                       
+                        <br>
+
 
                         <div class='row justify-content-center'>
                             <button type='submit' class='btn-primary w-25 mt-3'>投稿</button>
                         </div>
                     </form>
 
-                    </div>
                 </div>
             </div>
-                
+        </div>
+        <div class="text-center">
+            <a href="#" class="btn btn-info mr-2" onclick='window.history.back(-1);'>🔙</a>
+        </div>
 
 
-                    
-<!--
+
+
+
+        <!--
 <div class="container">
     
     <div class="row justify-content-center">
@@ -78,4 +82,4 @@
     </div>
 </div>
 -->
-@endsection
+        @endsection

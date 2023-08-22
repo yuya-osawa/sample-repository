@@ -20,7 +20,7 @@ class CreatePostsTable extends Migration
             $table->integer('amount');
             $table->string('memo', '255')->nullable();
             $table->string('image')->nullable();
-            $table->integer('status');
+            $table->integer('tag');
             $table->date('date');
             $table->integer('report_count');
             $table->tinyInteger('del_flg')->default(0);

@@ -3,7 +3,6 @@
 @section('content')
 
 <div class="container">
-
     @if ($errors->any())
     <ul>
         @foreach ($errors->all() as $error)
@@ -13,102 +12,110 @@
     @endif
 </div>
 
-<div class="text-center">
-    @if(Auth::id() == $post['user_id'])
-    <form action="{{ route('Post.update', $post['id']) }}" method="POST" enctype="multipart/form-data">
-        @method('patch')
-        @csrf
-        <div class="mb-3">
-            <lavel for="formGroupExampleInput" class="form-lavel">タイトル</lavel>
-            <input type="text" name="title" placeholder="タイトル" value="{{ old('title', $post['title']) }}">
-        </div>
-
-        <div class="mb-3">
-            <lavel for="formGroupExampleInput" class="form-lavel">金額</lavel>
-            <input type="text" name="amount" placeholder="金額" value="{{ old('amount', $post['amount']) }}">
-        </div>
-
-        <div class="mb-3">
-            <lavel for="formGroupExampleInput2" class="form-lavel">投稿日</lavel>
-            <input type="date" name="date" placeholder="0000/00/00" value="{{ old('date', $post['date']) }}">
-        </div>
-
-        <div class="mb-3">
-            <lavel for="formGroupExampleInput3" class="form-lavel">投稿内容</lavel>
-            <textarea name="post">{{ old('comment', $post['comment']) }}</textarea><br>
-        </div>
-
-        <div class="mb-3">
-            <lavel for="formGroupExampleInput4" class="form-lavel">投稿画像</lavel>
-            <input type="file" id="image" name="image">
-        </div>
-
-
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary">編集</button>
-        </div>
-    </form>
-
-    <form action="{{ route('Post.destroy',$post['id']) }}" method="POST">
-        @csrf
-        @method('DELETE')
-        <input type="submit" value="削除" class="btn btn-danger" onclick='return confirm("この投稿を削除しますか？");'>
-    </form>
-    <a href="#" class="btn btn-secondary" onclick='window.history.back(-1);'>戻る</a>
-    <a href="/home" class="btn btn-secondary">ホームへ</a>
-
-    <!-- 他ユーザーの詳細　-->
-    @else
-    <!--<form action="{{ route('Post.update', $post['id']) }}" method="POST" enctype="multipart/form-data">
+<div class="card mx-auto mt-4" style="max-width: 600px;">
+    <div class="card-header text-center">投稿内容</div>
+    <div class="card-body">
+        @if(Auth::id() == $post['user_id'])
+        <form action="{{ route('Post.update', $post['id']) }}" method="POST" enctype="multipart/form-data">
             @method('patch')
-            @csrf-->
-    <div class="mb-3">
-        <lavel for="formGroupExampleInput" class="form-lavel">タイトル</lavel>
-        <div name="title" placeholder="タイトル" value="{{ $post['title'] }}">{{ $post['title'] }}</div>
+            @csrf
+            <div class="mb-3">
+                <label for="title" class="form-label">タイトル</label>
+                <input type="text" name="title" class="form-control" placeholder="タイトル" value="{{ old('title', $post['title']) }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="amount" class="form-label">金額</label>
+                <input type="text" name="amount" class="form-control" placeholder="金額" value="{{ old('amount', $post['amount']) }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="date" class="form-label">投稿日</label>
+                <input type="date" name="date" class="form-control" placeholder="0000/00/00" value="{{ old('date', $post['date']) }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="comment" class="form-label">投稿内容</label>
+                <textarea name="comment" class="form-control">{{ old('comment', $post['comment']) }}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="image" class="form-label">投稿画像</label>
+                <input type="file" id="image" name="image" class="form-control-file">
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary mr-2">編集</button>
+                <input type="submit" value="削除" class="btn btn-danger" onclick='return confirm("この投稿を削除しますか？");'>
+                <a href="#" class="btn btn-info mr-2" onclick='window.history.back(-1);'>🔙</a>
+            </div>
+        </form>
+        @endif
     </div>
 
-    <div class="mb-3">
-        <lavel for="formGroupExampleInput" class="form-lavel">金額</lavel>
-        <div name="amount" placeholder="金額" value="{{ $post['amount'] }}">{{ $post['amount'] }}</div>
+
+    <!-- 他ユーザーの詳細画面 -->
+
+    @if(Auth::id() != $post['user_id'])
+
+    <div class="card-body">
+        <div class="mb-3">
+            <label for="status" class="form-label">ステータス:</label>
+            @if($post->tag == 0)
+            掲載中
+            @else
+            進行中
+            @endif
+        </div>
+
+        <!-- タイトル表示 -->
+        <div class="mb-3">
+            <label for="title" class="form-label">タイトル</label>
+            <div>{{ $post['title'] }}</div>
+        </div>
+
+        <!-- 金額表示 -->
+        <div class="mb-3">
+            <label for="amount" class="form-label">金額</label>
+            <div>{{ $post['amount'] }}</div>
+        </div>
+
+        <!-- 投稿日表示 -->
+        <div class="mb-3">
+            <label for="date" class="form-label">投稿日</label>
+            <div>{{ $post['date'] }}</div>
+        </div>
+
+        <!-- 投稿内容表示 -->
+        <div class="mb-3">
+            <label for="comment" class="form-label">投稿内容</label>
+            <div>{{ $post['comment'] }}</div>
+        </div>
+
+        <!-- 画像表示 -->
+        <div class="mb-3">
+            <label for="image" class="form-label">投稿画像</label>
+            <div>
+                @if(empty($post['image']))
+                画像の投稿はありません
+                @elseif(!empty($post['image']))
+                <img src="{{ asset('storage/'.$post['image']) }}" style="width: 100px; height: 100px; object-fit: cover;">
+                @endif
+
+                <div class="text-center">
+                    <a href="{{ route('jobask.index',$post->id) }}" class="btn btn-primary">依頼</a>
+                    <form action="{{ route('Spam.show',$post->id) }}" method="get" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-primary">違反報告ページへ</button>
+                    </form>
+                    <a href="#" class="btn btn-info mr-2" onclick='window.history.back(-1);'>🔙</a>
+
+                </div>
+                @endif
+            </div>
+        </div>
     </div>
-
-    <div class="mb-3">
-        <lavel for="formGroupExampleInput2" class="form-lavel">投稿日</lavel>
-        <div name="date" placeholder="0000/00/00" value="{{ $post['date'] }}">{{ $post['date'] }}</div>
-    </div>
-
-    <div class="mb-3">
-        <lavel for="formGroupExampleInput3" class="form-lavel">投稿内容</lavel>
-        <div name="post" value="{{ $post['comment'] }}">{{ $post['comment'] }}</div><br>
-    </div>
-
-    <div class="mb-3">
-        <lavel for="formGroupExampleInput4" class="form-lavel">投稿画像</lavel>
-        <div id="image" name="image" value="{{ $post['image'] }}">{{ $post['image'] }}</div>
-
-    </div>
-
-
-    <div class="text-center">
-        <a href="{{ route('jobask.index',$post->id) }}">依頼</a>
-        @csrf
-    </div>
-
-    <form action="{{ route('Spam.show',$post->id) }}" method="get">
-        @csrf
-        <button type="submit" class="btn btn-primary text-nowrap">違反報告ページへ</button>
-    </form>
-
-
-
-
-    <a href="#" class="btn btn-secondary" onclick='window.history.back(-1);'>戻る</a>
-    <a href="/home" class="btn btn-secondary">ホームへ</a>
 </div>
-@endif
-
-
-
 
 
 @endsection
